@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Theatertheorie — Prüfungsbühne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg: #15130F;
+  --bg-raised: #1B1812;
+  --bg-card: #1E1B14;
+  --ink: #EAE3D2;
+  --ink-dim: #B3A990;
+  --ink-faint: #7A7261;
+  --rule: #332D22;
+  --rule-bright: #4A4231;
+  --red: #B23A2E;
+  --red-bright: #D14E3F;
+  --gold: #B8985A;
+  --gold-dim: #8A744A;
+  --green-dim: #5C6B4F;
+  --serif: "Fraunces", "Newsreader", Georgia, serif;
+  --serif-italic: "Newsreader", Georgia, serif;
+  --mono: "IBM Plex Mono", "SF Mono", monospace;
+  --maxw: 920px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--serif-italic);
+  font-size:17px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* subtle stage-light texture */
+body::before{
+  content:"";
+  position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% -10%, rgba(178,58,46,0.10), transparent 60%),
+    radial-gradient(ellipse 80% 50% at 80% 100%, rgba(184,152,90,0.05), transparent 60%);
+  pointer-events:none;
+  z-index:0;
+}
+
+a{color:var(--gold); text-decoration:none;}
+a:hover{color:var(--red-bright); text-decoration:underline;}
+a:focus-visible, button:focus-visible, input:focus-visible{
+  outline:2px solid var(--red-bright);
+  outline-offset:2px;
+}
+
+h1,h2,h3,h4{
+  font-family:var(--serif);
+  font-style:normal;
+  font-weight:600;
+  color:var(--ink);
+  margin:0;
+}
+
+.eyebrow{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--gold-dim);
+}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px; position:relative; z-index:1;}
+
+/* ---------- HEADER / CURTAIN ---------- */
+header.curtain{
+  position:relative;
+  padding:96px 0 64px;
+  border-bottom:1px solid var(--rule);
+  overflow:hidden;
+}
+header.curtain .wrap{display:flex; flex-direction:column; gap:18px;}
+.curtain-rule{
+  position:absolute; top:0; left:0; right:0; height:6px;
+  background:repeating-linear-gradient(90deg, var(--red) 0 26px, transparent 26px 30px);
+  opacity:0.55;
+}
+h1.title{
+  font-size:clamp(40px, 7vw, 68px);
+  line-height:0.98;
+  letter-spacing:-0.01em;
+  max-width:760px;
+}
+h1.title em{
+  font-style:italic;
+  color:var(--red-bright);
+  font-weight:500;
+}
+.subtitle{
+  font-family:var(--serif-italic);
+  font-style:italic;
+  font-size:19px;
+  color:var(--ink-dim);
+  max-width:560px;
+}
+.meta-row{
+  display:flex; gap:24px; flex-wrap:wrap;
+  margin-top:14px;
+  font-family:var(--mono); font-size:12px; color:var(--ink-faint);
+  letter-spacing:0.03em;
+}
+.meta-row span{display:flex; align-items:center; gap:6px;}
+.meta-row span::before{content:"—"; color:var(--rule-bright);}
+
+/* ---------- FINDER (signature element) ---------- */
+.finder{
+  margin-top:36px;
+  background:var(--bg-card);
+  border:1px solid var(--rule);
+  border-radius:3px;
+  padding:22px 24px;
+}
+.finder-label{
+  font-family:var(--mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:10px;
+  display:block;
+}
+.finder input{
+  width:100%;
+  background:var(--bg-raised);
+  border:1px solid var(--rule-bright);
+  color:var(--ink);
+  font-family:var(--serif-italic);
+  font-style:italic;
+  font-size:17px;
+  padding:11px 14px;
+  border-radius:2px;
+}
+.finder input::placeholder{color:var(--ink-faint); font-style:italic;}
+.finder-hint{
+  font-family:var(--mono); font-size:11px; color:var(--ink-faint);
+  margin-top:8px;
+}
+.finder-results{
+  margin-top:14px;
+  display:flex; flex-direction:column; gap:8px;
+}
+.finder-result{
+  display:flex; align-items:baseline; gap:10px;
+  padding:9px 12px;
+  background:var(--bg-raised);
+  border-left:3px solid var(--rule-bright);
+  border-radius:0 2px 2px 0;
+  font-size:15px;
+}
+.finder-result.match{border-left-color:var(--red);}
+.finder-result a{font-family:var(--serif); font-style:normal; font-weight:600; color:var(--ink); font-size:15px;}
+.finder-result a:hover{color:var(--red-bright);}
+.finder-result .fr-tag{font-family:var(--mono); font-size:10px; color:var(--gold-dim); white-space:nowrap;}
+.finder-empty{font-family:var(--mono); font-size:13px; color:var(--ink-faint); padding:8px 12px;}
+
+/* ---------- NAV (program listing) ---------- */
+nav.program{
+  position:sticky; top:0; z-index:10;
+  background:rgba(21,19,15,0.92);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--rule);
+}
+nav.program .wrap{
+  display:flex; gap:2px; overflow-x:auto;
+  padding:0 28px;
+  scrollbar-width:thin;
+}
+nav.program a{
+  font-family:var(--mono); font-size:11px; letter-spacing:0.04em;
+  color:var(--ink-faint);
+  padding:14px 12px;
+  white-space:nowrap;
+  border-bottom:2px solid transparent;
+  flex-shrink:0;
+}
+nav.program a:hover, nav.program a:focus-visible{
+  color:var(--ink); text-decoration:none;
+  border-bottom-color:var(--gold-dim);
+}
+nav.program a.act-n{color:var(--gold-dim); margin-right:2px;}
+
+/* ---------- MAIN / ACTS ---------- */
+main{padding:64px 0 40px;}
+
+.act{
+  padding:64px 0;
+  border-bottom:1px solid var(--rule);
+  scroll-margin-top:54px;
+}
+.act:last-of-type{border-bottom:none;}
+
+.act-head{
+  display:flex; align-items:baseline; gap:18px;
+  margin-bottom:6px;
+}
+.act-number{
+  font-family:var(--mono); font-size:13px; color:var(--gold-dim);
+  letter-spacing:0.06em;
+}
+.act h2{
+  font-size:clamp(26px, 4vw, 36px);
+  line-height:1.1;
+}
+.act-authors{
+  font-family:var(--mono); font-size:12px; color:var(--ink-faint);
+  margin:10px 0 28px;
+  letter-spacing:0.02em;
+}
+.act-authors strong{color:var(--gold); font-weight:500;}
+
+.thesis{
+  font-family:var(--serif-italic); font-style:italic;
+  font-size:20px; line-height:1.5;
+  color:var(--ink);
+  border-left:3px solid var(--red);
+  padding:4px 0 4px 20px;
+  margin:0 0 32px;
+}
+.thesis .lbl{
+  display:block; font-family:var(--mono); font-style:normal; font-size:10px;
+  letter-spacing:0.12em; text-transform:uppercase; color:var(--red-bright);
+  margin-bottom:6px;
+}
+
+.act h3{
+  font-size:17px;
+  margin:30px 0 12px;
+  color:var(--ink);
+  font-weight:600;
+}
+.act h3 .h-eyebrow{display:block; font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); font-weight:400; margin-bottom:4px;}
+
+.act p{margin:0 0 14px; color:var(--ink-dim);}
+.act p strong{color:var(--ink); font-weight:600; font-style:normal;}
+.act ul, .act ol{margin:0 0 16px; padding-left:0; list-style:none;}
+.act li{
+  position:relative;
+  padding-left:20px;
+  margin-bottom:9px;
+  color:var(--ink-dim);
+}
+.act li::before{
+  content:"·"; position:absolute; left:4px; top:-2px;
+  color:var(--gold-dim); font-size:20px;
+}
+.act li strong{color:var(--ink); font-style:normal; font-weight:600;}
+
+.style-table{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap:14px;
+  margin:18px 0 26px;
+}
+.style-card{
+  background:var(--bg-card);
+  border:1px solid var(--rule);
+  border-radius:3px;
+  padding:18px 20px;
+  border-top:3px solid var(--rule-bright);
+}
+.style-card.s1{border-top-color:#8A744A;}
+.style-card.s2{border-top-color:#B23A2E;}
+.style-card.s3{border-top-color:#5C6B4F;}
+.style-card h4{
+  font-family:var(--mono); font-size:13px; letter-spacing:0.04em;
+  color:var(--ink); margin-bottom:8px; font-weight:600;
+}
+.style-card p{margin-bottom:6px; font-size:15px;}
+.style-card .sc-label{font-family:var(--mono); font-size:10px; color:var(--gold-dim); text-transform:uppercase; letter-spacing:0.08em;}
+
+@media (min-width:760px){
+  .style-table{grid-template-columns:1fr 1fr 1fr;}
+}
+
+.exam-sentence{
+  background:var(--bg-card);
+  border:1px solid var(--rule);
+  border-left:3px solid var(--gold);
+  border-radius:0 3px 3px 0;
+  padding:16px 20px;
+  margin:14px 0;
+  font-size:15.5px;
+  color:var(--ink);
+}
+.exam-sentence .es-lbl{
+  display:block; font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:8px;
+}
+
+.questions{
+  margin:18px 0 6px;
+  padding:16px 20px;
+  background:var(--bg-raised);
+  border-radius:3px;
+}
+.questions .q-lbl{
+  font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+  color:var(--ink-faint); display:block; margin-bottom:10px;
+}
+.questions li{color:var(--ink-dim); font-style:italic; font-size:15px;}
+.questions li::before{content:"?"; font-style:normal; color:var(--red);}
+
+.tag-row{display:flex; flex-wrap:wrap; gap:6px; margin:18px 0 0;}
+.tag{
+  font-family:var(--mono); font-size:10.5px;
+  color:var(--ink-faint);
+  background:var(--bg-raised);
+  border:1px solid var(--rule-bright);
+  border-radius:20px;
+  padding:4px 11px;
+  letter-spacing:0.02em;
+}
+
+.support-box{
+  margin-top:28px;
+  padding-top:20px;
+  border-top:1px dashed var(--rule-bright);
+}
+.support-box .sb-lbl{
+  font-family:var(--mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase;
+  color:var(--ink-faint); margin-bottom:10px; display:block;
+}
+
+/* ---------- FINAL: EXAM PROTOCOL ---------- */
+.protocol{
+  background:linear-gradient(180deg, var(--bg-card), var(--bg-raised));
+  border:1px solid var(--rule-bright);
+  border-radius:4px;
+  padding:40px 36px;
+  margin-top:8px;
+}
+.protocol-step{
+  display:flex; gap:20px;
+  padding:20px 0;
+  border-bottom:1px solid var(--rule);
+}
+.protocol-step:last-child{border-bottom:none;}
+.protocol-step .ps-num{
+  font-family:var(--serif); font-weight:700; font-size:34px;
+  color:var(--red);
+  line-height:1;
+  flex-shrink:0;
+  width:50px;
+}
+.protocol-step .ps-body h4{font-size:16px; margin-bottom:6px;}
+.protocol-step .ps-body p{margin-bottom:8px; font-size:15px;}
+.protocol-step .ps-body .ps-detail{
+  font-family:var(--mono); font-size:12.5px; color:var(--ink-faint);
+  background:var(--bg-raised);
+  padding:8px 12px; border-radius:2px;
+  margin-top:6px;
+  line-height:1.6;
+}
+
+.starter-row{
+  display:flex; flex-direction:column; gap:8px;
+  margin-top:24px;
+}
+.starter{
+  font-family:var(--serif-italic); font-style:italic;
+  color:var(--ink-dim);
+  font-size:15.5px;
+  padding:10px 16px;
+  background:var(--bg-raised);
+  border-radius:3px;
+  border-left:2px solid var(--gold-dim);
+}
+
+/* quick reference table at very end */
+.quickref{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+  font-size:14px;
+}
+.quickref th, .quickref td{
+  text-align:left;
+  padding:11px 14px;
+  border-bottom:1px solid var(--rule);
+  vertical-align:top;
+}
+.quickref th{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase;
+  color:var(--gold-dim); font-weight:500;
+}
+.quickref td{color:var(--ink-dim);}
+.quickref td strong{color:var(--ink); font-weight:600;}
+.quickref tr.priority td{color:var(--ink);}
+.quickref tr.priority{background:rgba(178,58,46,0.07);}
+
+footer{
+  padding:40px 0 60px;
+  text-align:center;
+  font-family:var(--mono); font-size:11px; color:var(--ink-faint);
+  letter-spacing:0.04em;
+}
+
+::-webkit-scrollbar{height:6px; width:8px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--rule-bright); border-radius:4px;}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+}
+</style>
+</head>
+<body>
+
+<header class="curtain">
+  <div class="curtain-rule"></div>
+  <div class="wrap">
+    <span class="eyebrow">Theater- und Performancetheorie · Semesterprogramm</span>
+    <h1 class="title">Was diese Bühne <em>tut</em>, nicht was sie zeigt.</h1>
+    <p class="subtitle">Neun Sitzungen, neun Theorien, ein Werkzeugkasten für die Prüfung am Donnerstag: Stil bestimmen, Politik des Unterbrechens erkennen, Repräsentation befragen.</p>
+    <div class="meta-row">
+      <span>9 Sitzungen</span>
+      <span>14 Autor:innen</span>
+      <span>1 Live-Analyse</span>
+    </div>
+
+    <div class="finder">
+      <label class="finder-label" for="finderInput">Bühnenfinder — was siehst du auf der Bühne?</label>
+      <input type="text" id="finderInput" placeholder="z.B. „Schauspieler bricht die vierte Wand“, „Kamera“, „Wiederholung“, „Tanz blockiert Straße“…">
+      <p class="finder-hint">Tippe ein Stichwort aus der Performance — die passenden Theorien erscheinen sofort.</p>
+      <div class="finder-results" id="finderResults"></div>
+    </div>
+  </div>
+</header>
+
+<nav class="program" id="programNav">
+  <div class="wrap">
+    <a href="#act0"><span class="act-n">00</span>Klein</a>
+    <a href="#act1"><span class="act-n">01</span>Lehmann</a>
+    <a href="#act2"><span class="act-n">02</span>Baumbach</a>
+    <a href="#act3"><span class="act-n">03</span>Brandl-Risi</a>
+    <a href="#act4"><span class="act-n">04</span>Repräsentation</a>
+    <a href="#act5"><span class="act-n">05</span>Müller-Schöll</a>
+    <a href="#act6"><span class="act-n">06</span>Rau</a>
+    <a href="#act7"><span class="act-n">07</span>Auslander</a>
+    <a href="#act8"><span class="act-n">08</span>Arns/Sasse</a>
+    <a href="#protocol"><span class="act-n">→</span>Prüfungsprotokoll</a>
+  </div>
+</nav>
+
+<main>
+<div class="wrap">
+
+  <!-- ACT 0: KLEIN -->
+  <section class="act" id="act0" data-keywords="choreografie raumschrift tanz bewegung körper sozial ordnung tanztheater concept dance stillstand verlangsamung kinetisch lepecki blockade objekte intermedial zuschauer mitproduzent forschung">
+    <div class="act-head">
+      <span class="act-number">SITZUNG 0</span>
+      <h2>Choreografie als gesellschaftliche Ordnung</h2>
+    </div>
+    <p class="act-authors"><strong>Hauptautorin:</strong> Gabriele Klein, „Zeitgenössische Choreografie" &nbsp;·&nbsp; <strong>Support:</strong> André Lepecki, „Die politische Ontologie der Bewegung"</p>
+
+    <p class="thesis"><span class="lbl">Kernthese</span>Choreografie ist nie nur Schrittfolge — sie ist eine ästhetische Form gesellschaftlicher Ordnung: wie Körper, Räume und Zeit organisiert werden, schreibt zugleich soziale Kategorien (Geschlecht, Klasse, Ethnie) fort oder bricht mit ihnen.</p>
+
+    <h3>Choreografie = Bewegen + Schreiben</h3>
+    <ul>
+      <li><strong>Raumschrift:</strong> Choreografie ist flüchtiges „Schreiben" im Raum (choros + graphie) und zugleich Dokumentation/Notation der Bewegung.</li>
+      <li><strong>Soziales Muster:</strong> sichtbar nicht nur im Tanz, sondern in Stadtplanung, Aufmärschen, Fußballstadien, Popkonzerten.</li>
+      <li><strong>Historische Verschiebung:</strong> höfisches Ballett (feste Regel) → Moderne (subjektiver, expressiver Körper) → Postmodern Dance/Judson (Alltagsbewegung) → Konzepttanz (Idee statt Virtuosität).</li>
+      <li><strong>Choreografie als Forschung:</strong> seit den 1990ern Theorie als Werkzeug <em>in</em> der Probe, nicht nur Kommentar danach.</li>
+      <li><strong>Intermedialität:</strong> Körper, Objekte, Texte, Licht, Sound als gleichwertige „Akteure" eines Dispositivs.</li>
+      <li><strong>Zuschauer als Mitproduzent:</strong> Bedeutung entsteht erst in der Wahrnehmung — offene Strukturen verlangen Interpretationsarbeit.</li>
+    </ul>
+
+    <div class="exam-sentence">
+      <span class="es-lbl">Prüfungssatz</span>
+      Contemporary choreography is the organization of movement in time and space that simultaneously writes and reflects social order — since the twentieth century shifting from representation to performance, where spectators become co-producers of meaning.
+    </div>
+
+    <div class="support-box">
+      <span class="sb-lbl">Support — André Lepecki: politische Ontologie der Bewegung</span>
+      <p>Die Moderne setzt Tanz mit ununterbrochenem Fluss gleich („being-towards-movement"). Wenn zeitgenössische Choreografie <strong>Stillstand, Stocken, Verlangsamung</strong> einsetzt, ist das kein Mangel, sondern eine politische Geste: sie verweigert den modernen Zwang zur permanenten Mobilität.</p>
+    </div>
+
+    <div class="questions">
+      <span class="q-lbl">Beispiel-Prüfungsfragen</span>
+      <ul>
+        <li>Wie organisiert diese Performance Körper im Raum, und welche soziale Ordnung schreibt sie damit fort oder bricht sie?</li>
+        <li>Feiert das Stück durchgehende Bewegung, oder setzt es Stillstand als kritische Geste ein (Lepecki)?</li>
+      </ul>
+    </div>
+    <div class="tag-row">
+      <span class="tag">Raumschrift</span><span class="tag">soziale Ordnung</span><span class="tag">Stillstand</span><span class="tag">Intermedialität</span><span class="tag">Zuschauer als Mitproduzent</span>
+    </div>
+  </section>
+
+  <!-- ACT 1: LEHMANN -->
+  <section class="act" id="act1" data-keywords="postdramatisch unterbrechung interruption politisch polizei police rancière modo obliquo eiermann postspektakulär unmittelbarkeit präsenz medialität alterität text figur handlung zäsur ausnahme">
+    <div class="act-head">
+      <span class="act-number">SITZUNG 1</span>
+      <h2>Politik als Unterbrechung, nicht als Inhalt</h2>
+    </div>
+    <p class="act-authors"><strong>Hauptautor:</strong> Hans-Thies Lehmann, „Wie politisch ist postdramatisches Theater?" &nbsp;·&nbsp; <strong>Support:</strong> André Eiermann, „Postspektakuläres Theater"</p>
+
+    <p class="thesis"><span class="lbl">Kernthese</span>Theater ist politisch nicht, wenn es politische Inhalte zeigt, sondern wenn es die bestehende politische Ordnung — ihre „Polizei"-Logik der Sichtbarkeit — unterbricht. Das Politische kann nur „modo obliquo" (schräg, indirekt) erscheinen.</p>
+
+    <h3>Warum „politische Inhalte" nicht reichen</h3>
+    <ul>
+      <li>Opfer, Revolution, Rassismus zu zeigen macht eine Performance <strong>nicht automatisch politisch</strong>.</li>
+      <li>Lässt sich eine Inszenierung leicht in die Sprache von Parteipolitik/Medienkommentar übersetzen → dann hat das Theater nichts spezifisch Theatralisches geleistet.</li>
+      <li>Das Politische ist dort, wo es sich <strong>nicht zurückübersetzen lässt</strong> — es bleibt „modo obliquo".</li>
+    </ul>
+
+    <h3>Unterbrechung, Regel, Ausnahme</h3>
+    <ul>
+      <li>„Politik" im üblichen Sinn = Verteilung von Plätzen, Stimmen, Sichtbarkeiten (Rancières „police order").</li>
+      <li>Theater wird politisch als <strong>Praxis der Ausnahme</strong>: eine Zäsur, die die Regel plötzlich sichtbar macht.</li>
+      <li>Formale Brüche — Erzählung stört, Repräsentation destabilisiert, Fokus auf Körper/Bild/Zuschauer — sind genau dort, wo Theater die dominante Ordnung unterbricht.</li>
+    </ul>
+
+    <div class="exam-sentence">
+      <span class="es-lbl">Prüfungssatz</span>
+      Lehmann argues that theatre is political only insofar as it interrupts the existing political order — not when it simply reproduces political discourse on stage; the political appears obliquely (modo obliquo) and cannot be translated back into ordinary political language without loss.
+    </div>
+
+    <div class="support-box">
+      <span class="sb-lbl">Support — André Eiermann: Postspektakuläres Theater</span>
+      <p>Das heutige Spektakel hat Spontaneität und Authentizität bereits absorbiert — Forderungen nach „mehr Unmittelbarkeit" stützen das Spektakel eher, als es zu kritisieren. <strong>Postspektakuläres Theater</strong> sucht keine reine Präsenz, sondern stellt die <strong>Medialität und Alterität</strong> der Aufführung selbst aus.</p>
+      <div class="exam-sentence">
+        <span class="es-lbl">Verknüpfungssatz</span>
+        Postspectacular theatre is political not by offering pure immediacy, but by staging the gap, mediation and alterity of the performance situation — which resonates with Lehmann's idea of theatre as an interruption, not a transparent mirror, of politics.
+      </div>
+    </div>
+
+    <div class="questions">
+      <span class="q-lbl">Beispiel-Prüfungsfragen</span>
+      <ul>
+        <li>Ist diese Inszenierung „politisch" im Sinne Lehmanns — warum oder warum nicht?</li>
+        <li>Wo unterbricht die Form (nicht der Inhalt) gewohnte Wahrnehmungsregeln?</li>
+      </ul>
+    </div>
+    <div class="tag-row">
+      <span class="tag">Unterbrechung</span><span class="tag">modo obliquo</span><span class="tag">police order</span><span class="tag">postspektakulär</span><span class="tag">Medialität</span>
+    </div>
+  </section>
+
+  <!-- ACT 2: BAUMBACH -->
+  <section class="act" id="act2" data-keywords="schauspielstil baumbach comödienstil rhetorisch veristisch fiktionsschranke kunstfigur diderot paradox lang gestik körper vierte wand naturalismus illusion bürgerliches subjekt eloquenza maske commedia">
+    <div class="act-head">
+      <span class="act-number">SITZUNG 2</span>
+      <h2 id="baumbach-h2">Schauspielstile: die Fiktionsschranke</h2>
+    </div>
+    <p class="act-authors"><strong>Hauptautorin:</strong> Gerda Baumbach, „Typologischer Vergleich der Schauspielstile" &nbsp;·&nbsp; <strong>Support:</strong> Franciscus Lang, Denis Diderot</p>
+
+    <p class="thesis"><span class="lbl">Kernthese — höchste Priorität für die Prüfung</span>Schauspielstile unterscheiden sich danach, wie streng die Grenze zwischen Realität und Fiktion gezogen ist — offen und durchquerbar, streng aber sichtbar, oder geschlossen und versteckt. Das ist dein erster Analyseschritt im Examen.</p>
+
+    <h3>Drei Stile</h3>
+    <div class="style-table">
+      <div class="style-card s1">
+        <span class="sc-label">offene Grenze</span>
+        <h4>Comödien-Stil</h4>
+        <p><strong>Maximale Beweglichkeit</strong> der Fiktionsschranke; Schauspieler springt zwischen Zivilperson, Kunstfigur (Maschera) und wechselnden Rollen.</p>
+        <p>Erzeugt ein <strong>„Zwischenfeld"</strong> der Imagination — Repräsentation wird aufgebaut und sofort wieder unterlaufen.</p>
+        <p>Bricht die Grenzen des kartesischen Subjekts: Mensch erscheint fließend, vielfältig, nah an Tier/Mythos.</p>
+      </div>
+      <div class="style-card s2">
+        <span class="sc-label">strenge, sichtbare grenze</span>
+        <h4>Rhetorischer Stil</h4>
+        <p>Schauspieler als <strong>Signifikant</strong>, der eine Rollen-Person <strong>zeigt</strong> (nicht wird).</p>
+        <p>Körper als Instrument einer codierten <strong>„Beredsamkeit des Körpers"</strong> (eloquenza del corpo) — Gestik, Haltung nach Regeln.</p>
+        <p>Publikum bleibt klar außen; Künstlichkeit wird offen ausgestellt.</p>
+      </div>
+      <div class="style-card s3">
+        <span class="sc-label">geschlossene grenze</span>
+        <h4>Veristischer Stil</h4>
+        <p>Fiktionsschranke <strong>total geschlossen</strong> an der Rampe; Schauspieler <strong>verschwindet</strong> hinter dem „natürlichen" Charakter.</p>
+        <p>Produktionsarbeit wird unsichtbar — Illusion einer durchgängigen, einheitlichen Figur.</p>
+        <p>Stützt die Ideologie des <strong>einheitlichen bürgerlichen Subjekts</strong> (homo clausus).</p>
+      </div>
+    </div>
+
+    <h3>Live-Erkennungs-Checkliste</h3>
+    <ul>
+      <li>Bricht der/die Schauspieler:in die Rolle, spricht das Publikum direkt an, wechselt zwischen „Ich" und Figur? → <strong>Comödienstil</strong></li>
+      <li>Wirkt das Spiel codiert, deklamatorisch, „präsentierend", mit klarem Abstand zur Rolle? → <strong>Rhetorischer Stil</strong></li>
+      <li>Sieht es aus wie psychologischer Naturalismus, „wie im echten Leben"? → <strong>Veristischer Stil</strong></li>
+      <li>Instabiler Wechsel zwischen den Stilen ist oft selbst eine Aussage (verweist auf Brandl-Risi/Siegmund oder Arns/Sasse).</li>
+    </ul>
+
+    <div class="exam-sentence">
+      <span class="es-lbl">Prüfungssatz</span>
+      Baumbach distinguishes acting styles by how strictly the fiction/reality boundary is drawn: open and crossable (Comödienstil), strict but visible (rhetorical), or closed and hidden (veristic) — and the veristic style's hidden production work supports the illusion of a unified bourgeois subject.
+    </div>
+
+    <div class="support-box">
+      <span class="sb-lbl">Support — Franciscus Lang (Beleg für den rhetorischen Stil)</span>
+      <p>Definiert Schauspiel als „angemessene Beweglichkeit von Körper und Stimme zur Erregung von Affekten". Spontane Gestik ist „roh" und muss durch Kunst (nach antiker Skulptur/Malerei) verfeinert werden.</p>
+    </div>
+
+    <div class="support-box">
+      <span class="sb-lbl">Support — Denis Diderot: Das Paradox des Schauspielers</span>
+      <p>Der große Schauspieler ist <strong>nicht empfindsam</strong>, sondern ein kühler Beobachter, der ein „ideelles Modell" exakt und wiederholbar nachbildet. Die Tränen kommen <strong>aus dem Kopf, nicht aus dem Herzen</strong>. Die Illusion existiert nur für das Publikum — der Schauspieler selbst bleibt klar, kontrolliert, nur körperlich erschöpft.</p>
+      <div class="exam-sentence">
+        <span class="es-lbl">Verknüpfungssatz</span>
+        In the veristic style the actor disappears behind a "natural" character, hiding the labor of production — exactly what Diderot's paradox formalizes: the great actor stays cool and reproduces an ideal model rather than feeling real emotion.
+      </div>
+    </div>
+
+    <div class="questions">
+      <span class="q-lbl">Beispiel-Prüfungsfragen</span>
+      <ul>
+        <li>Welchen Schauspielstil verwendet die Performance, und was bewirkt das (Baumbach)?</li>
+        <li>Wie verhält sich die Inszenierung zur Grenze zwischen Fiktion und Realität?</li>
+        <li>Lässt sich Diderots „Paradox" auf das Spiel dieser Darsteller:innen anwenden?</li>
+      </ul>
+    </div>
+    <div class="tag-row">
+      <span class="tag">Fiktionsschranke</span><span class="tag">Kunstfigur</span><span class="tag">eloquenza del corpo</span><span class="tag">Paradox des Schauspielers</span><span class="tag">homo clausus</span>
+    </div>
+  </section>
+
+  <!-- ACT 3: BRANDL-RISI -->
+  <section class="act" id="act3" data-keywords="virtuosität imperfektion überbietung pollesch sound siegmund zappeln glitzern gestikulieren subjekt arbeit scheitern überladung text castorf diva komödie neoliberal kreatives subjekt vierte wand">
+    <div class="act-head">
+      <span class="act-number">SITZUNG 3</span>
+      <h2>Virtuosität der Unperfektion</h2>
+    </div>
+    <p class="act-authors"><strong>Hauptautorin:</strong> Bettina Brandl-Risi, „Neue Szenen des Virtuosen" &nbsp;·&nbsp; <strong>Support:</strong> Gerald Siegmund, „Zappeln, Glitzern, Gestikulieren"</p>
+
+    <p class="thesis"><span class="lbl">Kernthese</span>Im Gegenwartstheater (Pollesch u.a.) ist Virtuosität nicht mehr perfekte Meisterschaft, sondern eine paradoxe Mischung aus Überbietung und beabsichtigter Unperfektion — professionelle Schauspieler:innen unterbieten bewusst „gutes Spiel", überladen sich mit Text und zeigen Fehler als neue, kritische Virtuosität.</p>
+
+    <h3>Virtuosität als Beziehung</h3>
+    <ul>
+      <li>Virtuosität = <strong>relational</strong>: existiert nur in der Beziehung zwischen Performer:in und Publikum (Bewunderung, Faszination, „Magie").</li>
+      <li>19. Jh. Schauspiel-Virtuosen zeigten schon die <strong>Lücke zwischen Akteur und Rolle</strong>, statt einfach in der Figur zu „verschwinden".</li>
+      <li>Bei Pollesch (Cappuccetto Rosso, Sophie Rois): „Pollesch-Sound" = monoton, kaum artikuliert, hohes Tempo, riesige Textmengen, Souffleuse sichtbar.</li>
+    </ul>
+
+    <h3>Virtuosität der Imperfektion</h3>
+    <ul>
+      <li>Bewusste Fehler: Versprecher, Monotonie, Über-/Unterspielen, Textunsicherheit.</li>
+      <li>Diese Unperfektion ist selbst <strong>hochdifferenziert und überzogen</strong> → wird zur neuen Virtuosität: <strong>Überbietung durch Unperfektion</strong>.</li>
+      <li>Spannung zwischen Virtuosität als <strong>Arbeit</strong> (anstrengend, trainiert) und der Fantasie einer Virtuosität, die von Arbeit <strong>entkoppelt</strong> wäre (reines Charisma).</li>
+    </ul>
+
+    <div class="exam-sentence">
+      <span class="es-lbl">Prüfungssatz</span>
+      Brandl-Risi identifies a contemporary virtuosity of imperfection — performers like in Pollesch's work overload themselves and let errors show as skill, staging a tension between virtuosity as exhausting labor and the fantasy of charisma decoupled from work.
+    </div>
+
+    <div class="support-box">
+      <span class="sb-lbl">Support — Gerald Siegmund: Zappeln, Glitzern, Gestikulieren</span>
+      <p>Im bürgerlichen Theater liest man von außerer Gestik auf innere Wahrheit. Pollesch wiederholt diese Konventionen als <strong>Farce</strong>: Kulissen sind sichtbar Theaterware, Gefühle sind klar als Theatereffekte markiert. Das untergräbt den Glauben an ein einheitliches Subjekt, dessen Wahrheit von außen lesbar wäre — und macht zugleich das <strong>neoliberale „kreative Subjekt"</strong> (flexibel, selbstoptimierend) komisch sichtbar.</p>
+      <div class="exam-sentence">
+        <span class="es-lbl">Verknüpfungssatz</span>
+        Together, Brandl-Risi and Siegmund show that Pollesch's theatre uses virtuosic acting to exaggerate imperfection and gaps in gesture and speech, undermining the bourgeois idea of a coherent inner subject and exposing the overworked neoliberal "creative subject."
+      </div>
+    </div>
+
+    <div class="questions">
+      <span class="q-lbl">Beispiel-Prüfungsfragen</span>
+      <ul>
+        <li>Wie zeigt sich hier eine „Virtuosität des Unperfekten" (Brandl-Risi)?</li>
+        <li>Bricht das Spiel die Verbindung zwischen Gestik und innerer Wahrheit (Siegmund)?</li>
+      </ul>
+    </div>
+    <div class="tag-row">
+      <span class="tag">Überbietung</span><span class="tag">Imperfektion</span><span class="tag">Pollesch-Sound</span><span class="tag">kreatives Subjekt</span><span class="tag">Arbeit vs. Charisma</span>
+    </div>
+  </section>
+
+  <!-- ACT 4: REPRÄSENTATION -->
+  <section class="act" id="act4" data-keywords="repräsentation hall semiotisch diskursiv engel laclau universell partikular spivak darstellung vertretung schaffer sichtbarkeit ambivalenz didi-huberman holocaust fotografie sprecherposition stimme rahmen hegemonie subaltern">
+    <div class="act-head">
+      <span class="act-number">SITZUNG 4</span>
+      <h2>Dilemmata der Repräsentation</h2>
+    </div>
+    <p class="act-authors"><strong>Handout:</strong> Hall / Engel / Laclau / Spivak &nbsp;·&nbsp; <strong>Support:</strong> Johanna Schaffer, Georges Didi-Huberman</p>
+
+    <p class="thesis"><span class="lbl">Kernthese</span>Repräsentation ist kein neutraler Spiegel der Realität, sondern eine soziale Praxis, die Bedeutung und damit Wirklichkeit <strong>herstellt</strong>. Die Frage ist nie nur „was wird gezeigt?", sondern „wie, und welche Welt macht dieses Wie real?"</p>
+
+    <h3>Fünf Werkzeuge</h3>
+    <ul>
+      <li><strong>Semiotisch vs. diskursiv (Hall):</strong> semiotisch = wie Bedeutung entsteht (Codes, Rahmung, Genre); diskursiv = welche politischen Effekte das hat (wer wird hör-/sichtbar, wer nicht).</li>
+      <li><strong>Bedingungen statt Bilder (Engel):</strong> es reicht nicht, „mehr Bilder" hinzuzufügen — man muss die <strong>Bedingungen</strong> von Repräsentation und Hegemonie selbst befragen (wer kontrolliert Rahmen, Genres, Narrative?).</li>
+      <li><strong>Universal/Partikular (Laclau):</strong> jedes „Universale" ist eine dominant gewordene Partikularität — wer darf für „die Frau", „den Migranten" stehen?</li>
+      <li><strong>Darstellung vs. Vertretung (Spivak):</strong> Darstellung = Abbildung/Inszenierung; Vertretung = politisches Sprechen-für. Eine Performance kann Subalterne sympathisch <strong>darstellen</strong> und sie zugleich paternalistisch <strong>vertreten</strong>.</li>
+      <li><strong>Ambivalenz der Sichtbarkeit (Schaffer):</strong> mehr Sichtbarkeit kann Anerkennung <em>oder</em> Stereotypisierung/Kontrolle bedeuten.</li>
+    </ul>
+
+    <div class="exam-sentence">
+      <span class="es-lbl">Prüfungssatz</span>
+      Following Spivak's distinction between Darstellung and Vertretung, the key question is whether a performance depicts a group or claims to politically speak for it; Laclau reminds us that any "universal" representative is really a dominant particular, and Schaffer shows the resulting visibility can recognize a group just as easily as stereotype it.
+    </div>
+
+    <div class="support-box">
+      <span class="sb-lbl">Support — Georges Didi-Huberman: Bilder trotz allem</span>
+      <p>Vier heimlich fotografierte Bilder des Auschwitz-Sonderkommandos existieren „trotz allem". Didi-Huberman kritisiert zwei Fehler: Bilder zu <strong>überladenen Ikonen</strong> des Schreckens zu machen, <em>oder</em> sie auf <strong>reine Dokumente</strong> zu reduzieren (Wegschneiden der „dunklen Zonen", die die Produktionsbedingungen zeigen). Man muss sie als <strong>Ereignisse des Sehens</strong> lesen — inklusive Unschärfe, Rahmung, Risiko des Fotografen.</p>
+    </div>
+
+    <h3>Schnell-Checkliste für die Prüfung</h3>
+    <ol>
+      <li><strong>Semiotisch:</strong> welche Codes (Casting, Kostüm, Rahmen, Genre, Humor) — was machen sie denk-/undenkbar?</li>
+      <li><strong>Diskursiv:</strong> welche sozialen Bedeutungen werden stabilisiert oder erschüttert?</li>
+      <li><strong>Engel:</strong> verändert das Stück die Bedingungen der Repräsentation, oder fügt es nur „mehr vom Gleichen" hinzu?</li>
+      <li><strong>Laclau:</strong> wessen Erfahrung wird als „universell" für eine ganze Gruppe genommen?</li>
+      <li><strong>Spivak:</strong> dürfen die Dargestellten selbst sprechen, oder werden sie von Expert:innen/Regie vertreten?</li>
+    </ol>
+
+    <div class="questions">
+      <span class="q-lbl">Beispiel-Prüfungsfragen</span>
+      <ul>
+        <li>Wer wird hier repräsentiert, und in welchem Sinn — Darstellung oder Vertretung?</li>
+        <li>Erzeugt die Sichtbarkeit hier Anerkennung oder Stereotypisierung (Schaffer)?</li>
+      </ul>
+    </div>
+    <div class="tag-row">
+      <span class="tag">Darstellung/Vertretung</span><span class="tag">Universal/Partikular</span><span class="tag">Ambivalenz der Sichtbarkeit</span><span class="tag">Bedingungen der Repräsentation</span>
+    </div>
+  </section>
+
+  <!-- ACT 5: MÜLLER-SCHÖLL -->
+  <section class="act" id="act5" data-keywords="dramaturgie polizeilich politisch police politics rancière foucault gleichheit haas haraway nichtmenschlich lepecki thingness objekte recke mittelreich schwarz-kopie weißsein casting ausschluss think tank brecht messingkauf governmentality">
+    <div class="act-head">
+      <span class="act-number">SITZUNG 5</span>
+      <h2>Dramaturgie: Polizei und Politik</h2>
+    </div>
+    <p class="act-authors"><strong>Hauptautor:</strong> Nikolaus Müller-Schöll, „Polizeiliche und politische Dramaturgie" &nbsp;·&nbsp; <strong>Support:</strong> Maximilian Haas, André Lepecki</p>
+
+    <p class="thesis"><span class="lbl">Kernthese</span>Dramaturgie oszilliert immer zwischen zwei Polen: einer <strong>polizeilichen</strong> Funktion, die Prozesse ordnet, diszipliniert und normalisiert, und einer <strong>politischen</strong> Funktion, die diese Ordnungen unterbricht, Gleichheit einfordert und die Bühne für Ausgeschlossene öffnet.</p>
+
+    <h3>Zwei Pole</h3>
+    <ul>
+      <li><strong>Polizeiliche Dramaturgie:</strong> ordnet, reguliert, disziplinniert den kreativen Prozess; sichert ein fertiges, konsumierbares Produkt; neutralisiert gefährliche Affekte (z.B. Absetzung politisch riskanter Inszenierungen).</li>
+      <li><strong>Politische Dramaturgie:</strong> hält kritische Distanz zur Institution; öffnet unterdrückte Konflikte neu; besteht auf <strong>Gleichheit</strong> zwischen Eingeschlossenen und Ausgeschlossenen; lässt „die ohne Bühne" erscheinen.</li>
+      <li>Beide Pole sind immer <strong>verschränkt</strong> — man fragt, welche Seite in einer konkreten Situation dominiert.</li>
+      <li><strong>Genealogie über Foucault:</strong> Dramaturgie entsteht im 18. Jh. parallel zu Gouvernementalität, Disziplin, Biopolitik — sie ist Teil derselben Rationalität wie psychiatrische Trennung oder Strafsysteme.</li>
+    </ul>
+
+    <h3>Fallbeispiel: Recke, „Mittelreich" Schwarz-Kopie</h3>
+    <ul>
+      <li>Anna-Sophie Mahlers Inszenierung von Bierbichlers „Mittelreich" — komplett weiß besetzt.</li>
+      <li>Anta Helena Recke kopiert <strong>dieselbe</strong> Inszenierung 1:1, aber besetzt <strong>alle</strong> Rollen mit People of Color.</li>
+      <li>Legt die unsichtbare Prämisse bloß: die angenommene Weißheit des Ensembles, die Norm „nur weiße Schauspieler:innen sind als Gretchen/Luise vermittelbar".</li>
+      <li>Akt der <strong>„Ent-Unterwerfung"</strong> (Foucault): bewusst riskiert die Produktion, nicht als „professionelle Kunst" anerkannt zu werden, um die Normativität professioneller Standards selbst auszustellen.</li>
+    </ul>
+
+    <div class="exam-sentence">
+      <span class="es-lbl">Prüfungssatz</span>
+      Müller-Schöll describes dramaturgy as oscillating between a "police" function that orders and normalizes and a "political" function that interrupts that order and insists on equality by opening the stage to excluded forms or people — Recke's "Schwarz-Kopie" of Mittelreich exemplifies this by reconfiguring who is allowed to embody "German history" without changing a single line.
+    </div>
+
+    <div class="support-box">
+      <span class="sb-lbl">Support — Maximilian Haas: Dramaturgie der nichtmenschlichen Anderen (nach Haraway)</span>
+      <p>Erweitert „politische Dramaturgie" von menschlichen Ausschlüssen (Race, Klasse, Gender) auf <strong>Spezies und Dinglichkeit</strong>: Tiere, Maschinen, Objekte als Mit-Akteure mit performativer Handlungsmacht. Dramaturgie als <strong>experimentelles System</strong> statt fixer Konzeptanwendung.</p>
+    </div>
+
+    <div class="support-box">
+      <span class="sb-lbl">Support — André Lepecki: Moving as some thing</span>
+      <p>Bewegung ist nicht exklusiv menschlich — Choreografien können um die Eigenwilligkeit von <strong>Dingen</strong> organisiert sein (ihr „Wille zu rennen"). Verschiebt die übliche Verteilung von Aktivität (Mensch) und Passivität (Objekt) und ist damit selbst eine kleine politische Neuverteilung von Handlungsmacht.</p>
+    </div>
+
+    <div class="questions">
+      <span class="q-lbl">Beispiel-Prüfungsfragen</span>
+      <ul>
+        <li>Lässt sich die Dramaturgie hier als „politisch" oder „polizeilich" beschreiben?</li>
+        <li>Wird die Bühne hier für menschliche oder nichtmenschliche „Andere" geöffnet (Haas)?</li>
+      </ul>
+    </div>
+    <div class="tag-row">
+      <span class="tag">police vs. politics</span><span class="tag">Gleichheit</span><span class="tag">Ent-Unterwerfung</span><span class="tag">nichtmenschliche Andere</span><span class="tag">Dinglichkeit</span>
+    </div>
+  </section>
+
+  <!-- ACT 6: RAU -->
+  <section class="act" id="act6" data-keywords="reenactment wiederholung milgram żmijewski dickinson banalität des bösen arendt extremer realismus avantgarde postmoderne ironie marchart protest tanz blockade kollektiv konflikt körperlichkeit public movement preenactment trauma">
+    <div class="act-head">
+      <span class="act-number">SITZUNG 6</span>
+      <h2>Reenactment: die seltsame Kraft der Wiederholung</h2>
+    </div>
+    <p class="act-authors"><strong>Hauptautor:</strong> Milo Rau, „Die seltsame Kraft der Wiederholung" &nbsp;·&nbsp; <strong>Support:</strong> Oliver Marchart, „Protest, Tanz, Körper"</p>
+
+    <p class="thesis"><span class="lbl">Kernthese</span>Reenactment wiederholt vergangene Ereignisse <strong>kalt</strong>, ohne Kommentar oder Ironie — und erzeugt dadurch einen extremen Realismus, in dem der Mensch als „Ding unter Dingen" erscheint und die Banalität des Bösen unausweichlich wird.</p>
+
+    <h3>Kalte Wiederholung statt Avantgarde-Schock oder postmoderner Ironie</h3>
+    <ul>
+      <li><strong>Żmijewski, 80064:</strong> ein Holocaust-Überlebender wird überredet, seine Lagernummer neu tätowieren zu lassen — ohne Kommentar, einfach noch einmal getan.</li>
+      <li><strong>Dickinson, The Milgram Re-enactment:</strong> wortgetreue Rekonstruktion des Milgram-Gehorsamsexperiments — gleicher Raum, gleiche Skripte, in Echtzeit.</li>
+      <li>Kein Witz, kein „kluges" Konzept — nur: <strong>„wir tun es noch einmal"</strong>.</li>
+      <li>Bestätigt Hannah Arendts These der <strong>Banalität des Bösen:</strong> gewöhnliche Menschen gehorchen Autorität bis zur „tödlichen" Grenze.</li>
+    </ul>
+
+    <h3>Mensch als „Ding unter Dingen"</h3>
+    <ul>
+      <li>Gegen Avantgarde (Schock, Originalität) <em>und</em> Postmoderne (Zitat, Ironie à la Warhol/Tarantino).</li>
+      <li>Reenactment nimmt den Avantgarde-Traum „Kunst = Leben" <strong>wörtlich</strong>: es wiederholt die eigenen Mechanismen der Gewalt des Lebens.</li>
+      <li>Keine Hierarchie zwischen Mensch und Ding, Zufall und Geschichte — Mensch als „Ding unter Dingen, Geräusch unter Geräuschen".</li>
+    </ul>
+
+    <div class="exam-sentence">
+      <span class="es-lbl">Prüfungssatz</span>
+      For Rau, reenactment's power lies in its cold repetition of historical situations without irony or commentary, taking "art = life" literally and producing an extreme realism where humans appear as "things among things" and the banality of evil becomes inescapably visible.
+    </div>
+
+    <div class="support-box">
+      <span class="sb-lbl">Support — Oliver Marchart: Protest, Tanz, Körper (Public Movement)</span>
+      <p>Vier Kriterien für <strong>politischen</strong> Straßenprotest:</p>
+      <ol>
+        <li><strong>Kollektiv</strong> — gemeinsames Handeln (Arendt: „acting in concert").</li>
+        <li><strong>Konflikt</strong> — klarer Adressat/Gegner, nicht nur subkultureller Flashmob.</li>
+        <li><strong>Blockade</strong> — unterbricht normale Zirkulation (Verkehr).</li>
+        <li><strong>Körperlichkeit</strong> — menschliche Körper als zentrales Medium im öffentlichen Raum.</li>
+      </ol>
+      <p>Public Movement wiederholt einen bekannten israelischen Volkstanz an Kreuzungen — 2009 als Kunstaktion, 2011 während echter Sozialprotest wird daraus ein <strong>politischer</strong> Akt (alle vier Kriterien erfüllt).</p>
+      <div class="exam-sentence">
+        <span class="es-lbl">Verknüpfungssatz</span>
+        Where Rau shows reenactment exposing the traumatic, mechanical side of history, Marchart shows how repeating and re-coding state choreographies (folk dance, ritual) can become an emancipatory political technique — repetition as a tool for democratic reappropriation, not only as trauma.
+      </div>
+    </div>
+
+    <div class="questions">
+      <span class="q-lbl">Beispiel-Prüfungsfragen</span>
+      <ul>
+        <li>Funktioniert diese Performance als Reenactment im Sinne Raus — was wird wiederholt, mit wie viel Kommentar?</li>
+        <li>Ist diese (Tanz-)Aktion nach Marcharts vier Kriterien „politisch"?</li>
+      </ul>
+    </div>
+    <div class="tag-row">
+      <span class="tag">kalte Wiederholung</span><span class="tag">Banalität des Bösen</span><span class="tag">Ding unter Dingen</span><span class="tag">4 Kriterien (Marchart)</span><span class="tag">Pre-enactment</span>
+    </div>
+  </section>
+
+  <!-- ACT 7: AUSLANDER -->
+  <section class="act" id="act7" data-keywords="dokumentation auslander dokumentarisch theatralisch indexikalität performativ klein leap into the void burden shoot acconci photo-piece cindy sherman barney foto kamera publikum zwei publika archiv">
+    <div class="act-head">
+      <span class="act-number">SITZUNG 7</span>
+      <h2>Performance und ihre Dokumentation</h2>
+    </div>
+    <p class="act-authors"><strong>Hauptautor:</strong> Philip Auslander, „Zur Performativität der Performancedokumentation"</p>
+
+    <p class="thesis"><span class="lbl">Kernthese</span>Performance-Dokumentation ist kein neutraler Beweis — sie kann selbst performativ sein und die Performance erst <strong>konstituieren</strong>. Ohne Dokument gibt es kein erkennbares Kunstwerk.</p>
+
+    <h3>Drei Typen</h3>
+    <ul>
+      <li><strong>Dokumentarische Dokumentation:</strong> hält ein Ereignis fest, das wirklich vor einem autonomen Live-Publikum stattfand (Chris Burdens <em>Shoot</em>).</li>
+      <li><strong>Theatralische Dokumentation:</strong> die Performance existiert nur <strong>für</strong> die Kamera, ohne autonomes Live-Ereignis (Yves Kleins <em>Leap into the Void</em> — eine Fotomontage; Cindy Sherman, Matthew Barney).</li>
+      <li><strong>Performative Dokumentation:</strong> der Akt des Dokumentierens <strong>konstituiert</strong> selbst die Performance — Vito Acconcis <em>Photo-Piece</em> (1969): er fotografiert jedes Mal, wenn er blinzelt; kein Live-Publikum erkannte dies als Performance.</li>
+    </ul>
+
+    <h3>Kritik am „indexikalischen" Mythos</h3>
+    <ul>
+      <li>Übliche Annahme: Performance passiert zuerst, Dokumentation kommt danach und gibt transparenten Zugang zur Realität.</li>
+      <li>Auslander zeigt: Performance und Dokumentation sind oft <strong>wechselseitig abhängig</strong> — Body Art „braucht" Fotos als Beweis; Fotos „brauchen" das Ereignis zur Verankerung ihrer Indexikalität.</li>
+      <li>Künstler:innen inszenierten oft <strong>für die Kamera</strong>, wissend, dass das Bild der Hauptweg ist, wie das Werk zirkuliert und erinnert wird.</li>
+    </ul>
+
+    <div class="exam-sentence">
+      <span class="es-lbl">Prüfungssatz</span>
+      Auslander distinguishes documentary documentation, which records an autonomous live event, from theatrical documentation, which exists only for the camera, and pushes further to "performative documentation," where the act of documenting itself constitutes the performance, as in Acconci's Photo-Piece, which no live audience ever witnessed as a performance.
+    </div>
+
+    <h3>So nutzt du Auslander live</h3>
+    <ul>
+      <li>Behandle Dokumentation nie als neutralen Beweis — frage, <strong>welche Art von Performance sie konstruiert</strong>.</li>
+      <li>Analysiere, wie Kamera-Rahmung, Schnitt, Farbe/S-W die Performance <strong>für zukünftige Publika inszenieren</strong>.</li>
+      <li>Gab es kein wahrnehmendes Live-Publikum? → die Performance existiert <strong>nur im Dokument</strong> — das Bild ist performativ.</li>
+    </ul>
+
+    <div class="questions">
+      <span class="q-lbl">Beispiel-Prüfungsfragen</span>
+      <ul>
+        <li>Ist die vorliegende Dokumentation dokumentarisch, theatralisch oder selbst performativ (Auslander)?</li>
+        <li>Gab es ein Live-Publikum, oder existiert das Werk erst im Foto/Video?</li>
+      </ul>
+    </div>
+    <div class="tag-row">
+      <span class="tag">dokumentarisch/theatralisch</span><span class="tag">performative Dokumentation</span><span class="tag">Indexikalität</span><span class="tag">zwei Publika</span>
+    </div>
+  </section>
+
+  <!-- ACT 8: ARNS/SASSE -->
+  <section class="act" id="act8" data-keywords="subversive affirmation übererfüllung mimesis überidentifikation totalitär laibach nsk schlingensief ausländer raus haider reality tv kein außen camouflage osteuropa žižek zuschauer beteiligung publikum implikation kritik von innen">
+    <div class="act-head">
+      <span class="act-number">SITZUNG 8 · LETZTE SITZUNG</span>
+      <h2>Subversive Affirmation</h2>
+    </div>
+    <p class="act-authors"><strong>Hauptautorinnen:</strong> Inke Arns &amp; Sylvia Sasse, „Subversive Affirmation" &nbsp;·&nbsp; <strong>Fallbeispiel:</strong> Christoph Schlingensief, „Ausländer raus! / Bitte liebt Österreich"</p>
+
+    <p class="thesis"><span class="lbl">Kernthese</span>Subversive Affirmation heißt: eine Ideologie so wörtlich und exzessiv nachahmen, dass sie sich selbst untergräbt. Kritik kommt nicht von außen, sondern von <strong>innen</strong>, durch Übertreibung der eigenen Form — es gibt keine sichere kritische Distanz.</p>
+
+    <h3>Warum kein „Außen"?</h3>
+    <ul>
+      <li>Im totalitären Sozialismus: strikte Zensur → kein sicherer Raum außerhalb zum Kritisieren.</li>
+      <li>Im Spätkapitalismus: alles kann gesagt werden und wird sofort vermarktet — kritische Distanz wird zum Stil neutralisiert.</li>
+      <li>In beiden Fällen funktioniert „von außen kritisieren" nicht (entweder unmöglich oder harmlos) → Taktiken <strong>von innen</strong> (Mimesis, Tarnung, Mimikry) haben mehr subversives Potenzial.</li>
+    </ul>
+
+    <h3>Wie es funktioniert</h3>
+    <ul>
+      <li><strong>Mimesis:</strong> dominanten Stil, Slogans, Formate kopieren (Poster, Reden, TV-Shows).</li>
+      <li><strong>Camouflage:</strong> im Hintergrund verschwinden — aussehen wie Teil des Systems, nicht wie Kunst.</li>
+      <li><strong>Überidentifikation:</strong> die Ideologie <strong>ernster nehmen</strong>, als sie sich selbst nimmt — ihre Logik bis zu dem Punkt treiben, wo die obszöne/gewaltsame Unterseite sichtbar wird.</li>
+      <li>Žižek (zitiert bei Arns/Sasse): das System fürchtet nicht Ironie (die schon eingepreist ist), sondern jemanden, der den offiziellen Diskurs <strong>wörtlich</strong> nimmt.</li>
+    </ul>
+
+    <h3>Rolle des Publikums: keine sichere Distanz</h3>
+    <ul>
+      <li>Subversive Affirmation entfernt <strong>bewusst</strong> kritische Distanz.</li>
+      <li>Publikum wird hineingezogen, stimmt zu oder beteiligt sich „wie gewohnt" — und reflektiert erst <strong>danach</strong> die eigene Verstrickung.</li>
+      <li>Die Taktik funktioniert nur, wenn die <strong>Rezeption die Kritik vervollständigt</strong> — Verantwortung verschiebt sich zum Publikum.</li>
+    </ul>
+
+    <div class="exam-sentence">
+      <span class="es-lbl">Prüfungssatz</span>
+      Arns and Sasse's subversive affirmation describes a strategy of over-identifying with an ideology's own forms so literally that its violence becomes visible from within, refusing any comfortable critical distance — and the tactic only works if the audience's reception completes the critique.
+    </div>
+
+    <div class="support-box">
+      <span class="sb-lbl">Fallbeispiel — Schlingensief: Ausländer raus! / Please Love Austria</span>
+      <p>Kopiert FPÖ/Haider-Rhetorik + Big-Brother-Reality-TV-Logik: (vermeintliche) Asylbewerber:innen in einem Container neben der Oper, Publikum kann sie online „wegwählen". Flaggen, Slogans, Haider-Reden — alles, als wäre es eine echte rechte Aktion. Die Frage „ist das echte Politik oder Theater?" wird instabil.</p>
+      <p>Er <strong>spielt Haiders Programm bis zum Ende</strong>: „Wenn ihr das mit Abschiebung und Fernsehdemokratie wirklich ernst meint, würde es so aussehen." Teilnahme (Wählen, Zuschauen) <strong>impliziert</strong> das Publikum.</p>
+    </div>
+
+    <h3>Live-Checkliste für die Prüfung</h3>
+    <ol>
+      <li>Kopiert das Werk einen existierenden Diskurs/Format (Parteiästhetik, Reality-TV, Werbung, Staatsritual)?</li>
+      <li>Wirkt die Nachahmung scheinbar affirmativ (keine offene Kritik, gleicher Ton)?</li>
+      <li>Wo ist das „Zuviel" oder der Twist (übertriebene Wörtlichkeit, Kontextverschiebung)?</li>
+      <li>Wird die Reaktion des Publikums selbst Teil der Kritik (Klatschen, Abstimmen, Konsumieren)?</li>
+    </ol>
+
+    <div class="questions">
+      <span class="q-lbl">Beispiel-Prüfungsfragen</span>
+      <ul>
+        <li>Inwiefern lässt sich diese Performance als „subversive Affirmation" lesen?</li>
+        <li>Wo verschwindet die kritische Distanz, und was macht das mit dem Publikum?</li>
+      </ul>
+    </div>
+    <div class="tag-row">
+      <span class="tag">Überidentifikation</span><span class="tag">Mimesis</span><span class="tag">kein Außen</span><span class="tag">Publikumsbeteiligung</span><span class="tag">Camouflage</span>
+    </div>
+  </section>
+
+  <!-- PROTOCOL -->
+  <section class="act" id="protocol">
+    <div class="act-head">
+      <span class="act-number">PRÜFUNG</span>
+      <h2>Analyseprotokoll: die ersten fünf Minuten</h2>
+    </div>
+    <p class="thesis"><span class="lbl">Ziel</span>Du bekommst eine unbekannte Performance. Hier ist die Reihenfolge, in der du vorgehst — bevor du irgendetwas aufschreibst.</p>
+
+    <div class="protocol">
+      <div class="protocol-step">
+        <span class="ps-num">1</span>
+        <div class="ps-body">
+          <h4>Oberfläche beschreiben</h4>
+          <p>Was passiert, ganz neutral: wer, was, wie inszeniert. Keine Interpretation, nur Beobachtung — das gibt dir Zeit, die Theorien im Kopf zu sortieren.</p>
+        </div>
+      </div>
+      <div class="protocol-step">
+        <span class="ps-num">2</span>
+        <div class="ps-body">
+          <h4>Schauspielstil bestimmen (Baumbach) — zuerst</h4>
+          <p>Comödien-, rhetorisch oder veristisch? Das ist dein verlässlichster Einstiegspunkt und liefert sofort Vokabular für den Rest der Antwort.</p>
+          <div class="ps-detail">Bricht die Figur? → Comödienstil · codiert/präsentierend? → Rhetorisch · psychologisch-natürlich? → Veristisch</div>
+        </div>
+      </div>
+      <div class="protocol-step">
+        <span class="ps-num">3</span>
+        <div class="ps-body">
+          <h4>2–3 weitere Theorien wählen</h4>
+          <p>Je nachdem, was die Performance in den Vordergrund stellt:</p>
+          <div class="ps-detail">
+            Politischer Inhalt/Struktur → Lehmann / Müller-Schöll<br>
+            Ideologie auf die Spitze getrieben → Arns/Sasse oder Rau<br>
+            Schlechtes/überladenes Spiel → Brandl-Risi / Siegmund<br>
+            Identitätsgruppen, wer spricht/erscheint → Hall / Spivak / Laclau / Schaffer<br>
+            Objekte / Nichtmenschliches → Haas / Lepecki<br>
+            Foto/Video/Kamera im Spiel → Auslander<br>
+            Tanz, Raum, Körperorganisation → Klein
+          </div>
+        </div>
+      </div>
+      <div class="protocol-step">
+        <span class="ps-num">4</span>
+        <div class="ps-body">
+          <h4>Jede Theorie in 1–2 Sätzen anwenden</h4>
+          <p>Nicht die Theorie referieren — sie <strong>auf das konkrete Stück anwenden</strong>. Nutze die Satzstarter unten.</p>
+        </div>
+      </div>
+      <div class="protocol-step">
+        <span class="ps-num">5</span>
+        <div class="ps-body">
+          <h4>Mit einer Reflexion schließen</h4>
+          <p>Was <strong>tut</strong> diese Performance mit dem Publikum, den Subjekten, der Politik der Repräsentation? Das ist der Satz, der die Antwort zusammenbindet.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Satzstarter</h3>
+    <div class="starter-row">
+      <div class="starter">"Following [AUTOR], we can understand this performance as …"</div>
+      <div class="starter">"In [AUTOR]'s terms, the key operation here is …"</div>
+      <div class="starter">"This staging produces a tension between X and Y that [AUTOR] describes as …"</div>
+    </div>
+
+    <h3 style="margin-top:48px;">Schnellübersicht — letzter Blick vor der Prüfung</h3>
+    <table class="quickref">
+      <thead>
+        <tr><th>Sitzung</th><th>Autor:in(nen)</th><th>Ein-Satz-Haken</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>0</td><td>Klein / Lepecki</td><td>Choreografie schreibt soziale Ordnung; Stillstand kann politisch sein</td></tr>
+        <tr><td>1</td><td>Lehmann / Eiermann</td><td>Politisch = unterbricht Ordnung, nicht „über Politik reden"</td></tr>
+        <tr class="priority"><td>2 ★</td><td>Baumbach / Lang / Diderot</td><td>Comödien (offen) / rhetorisch (codiert) / veristisch (versteckt)</td></tr>
+        <tr><td>3</td><td>Brandl-Risi / Siegmund</td><td>Virtuosität = geschickte Unperfektion, Überladung</td></tr>
+        <tr><td>4</td><td>Hall/Engel/Laclau/Spivak/Schaffer</td><td>Repräsentation erzeugt Realität; wer spricht für wen</td></tr>
+        <tr><td>5</td><td>Müller-Schöll / Haas / Lepecki</td><td>Dramaturgie: Polizei (Ordnung) vs. Politik (Unterbrechung)</td></tr>
+        <tr><td>6</td><td>Rau / Marchart</td><td>Reenactment = kalte Wiederholung; 4 Kriterien für „politisch"</td></tr>
+        <tr><td>7</td><td>Auslander</td><td>dokumentarisch vs. theatralisch vs. performative Dokumentation</td></tr>
+        <tr><td>8</td><td>Arns/Sasse / Schlingensief</td><td>Kritik durch Über-Affirmation, kein sicheres Außen</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  Theatertheorie · Semesterkonspekt — viel Erfolg am Donnerstag
+</footer>
+
+<script>
+const finderInput = document.getElementById('finderInput');
+const finderResults = document.getElementById('finderResults');
+
+const sections = Array.from(document.querySelectorAll('.act[data-keywords]')).map(sec => {
+  const titleEl = sec.querySelector('h2');
+  return {
+    id: sec.id,
+    title: titleEl ? titleEl.textContent.trim() : sec.id,
+    keywords: (sec.getAttribute('data-keywords') || '').toLowerCase(),
+    authors: (sec.querySelector('.act-authors') || {}).textContent || ''
+  };
+});
+
+function normalize(s){
+  return s.toLowerCase()
+    .replace(/[äÄ]/g,'a').replace(/[öÖ]/g,'o').replace(/[üÜ]/g,'u').replace(/ß/g,'ss');
+}
+
+function renderResults(query){
+  finderResults.innerHTML = '';
+  const q = normalize(query.trim());
+  if(!q){
+    return;
+  }
+  const terms = q.split(/\s+/).filter(Boolean);
+  const scored = sections.map(s => {
+    const hay = normalize(s.keywords + ' ' + s.title + ' ' + s.authors);
+    let score = 0;
+    terms.forEach(t => {
+      if(hay.includes(t)) score += 1;
+    });
+    return {...s, score};
+  }).filter(s => s.score > 0).sort((a,b) => b.score - a.score);
+
+  if(scored.length === 0){
+    const empty = document.createElement('div');
+    empty.className = 'finder-empty';
+    empty.textContent = 'Kein direkter Treffer — versuch ein anderes Stichwort (z.B. „Kamera", „Wiederholung", „Tanz").';
+    finderResults.appendChild(empty);
+    return;
+  }
+
+  scored.slice(0,5).forEach((s, i) => {
+    const row = document.createElement('div');
+    row.className = 'finder-result' + (i === 0 ? ' match' : '');
+    row.innerHTML = `<a href="#${s.id}">${s.title}</a><span class="fr-tag">${s.score} Treffer</span>`;
+    finderResults.appendChild(row);
+  });
+}
+
+finderInput.addEventListener('input', (e) => renderResults(e.target.value));
+</script>
+
+</body>
+</html>
